@@ -13,7 +13,7 @@ namespace mendesEmprestimoLivro.Controllers
             _loginInterface = loginInterface;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
@@ -56,8 +56,28 @@ namespace mendesEmprestimoLivro.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(UsuarioLoginDto usuarioLoginDto)
         {
-            return View();
+            var usuario = await _loginInterface.Login(usuarioLoginDto);
+
+            if (ModelState.IsValid)
+            {
+                if (usuario.Status)
+                {
+                    TempData["MensagemSucesso"] = usuario.Mensagem;
+                    return RedirectToAction("Index", "Home");
+
+                }
+                else
+                {
+                    TempData["MensagemErro"] = usuario.Mensagem;
+                    return View("Index", usuarioLoginDto);
+                }
+            }
+            else
+            {
+                return View("Index",usuarioLoginDto);
+            }
         }
+
 
     }
 }

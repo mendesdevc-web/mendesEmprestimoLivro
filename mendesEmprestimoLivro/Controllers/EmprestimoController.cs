@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using mendesEmprestimoLivro.Data;
 using mendesEmprestimoLivro.Models;
+using mendesEmprestimoLivro.Services.SessãoService;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -9,14 +10,23 @@ namespace mendesEmprestimoLivro.Controllers
     public class EmprestimoController : Controller
     {
         readonly private ApplicationDbContext _db;
-        public EmprestimoController(ApplicationDbContext db)
+        readonly private ISessaoService _sessaoService;
+        public EmprestimoController(ApplicationDbContext db, ISessaoService sessaoService)
         {
             _db = db;
+            _sessaoService = sessaoService;
         }
         public IActionResult Index()
         {
-            IEnumerable<EmprestimoModel> emprestimo = _db.Emprestimos;
 
+            var usuario = _sessaoService.BuscarSessao();
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+
+            IEnumerable<EmprestimoModel> emprestimo = _db.Emprestimos;
 
             return View(emprestimo);
         }
@@ -24,6 +34,14 @@ namespace mendesEmprestimoLivro.Controllers
         [HttpGet]
         public IActionResult Cadastrar()
         {
+            
+            var usuario = _sessaoService.BuscarSessao();
+            if (usuario == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+
             return View();
         }
         [HttpGet]

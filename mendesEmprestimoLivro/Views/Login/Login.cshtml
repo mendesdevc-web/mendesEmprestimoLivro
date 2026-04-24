@@ -1,6 +1,9 @@
 ﻿@using mendesEmprestimoLivro.Dtos
 @model UsuarioLoginDto
 
+@{
+    Layout = "_LayoutDeslogada"; 
+}
 
 @if (TempData["MensagemSucesso"] != null)
 {
@@ -14,6 +17,9 @@
         @TempData["MensagemErro"]
     </div>
 }
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
 
 <div class="container"
     
