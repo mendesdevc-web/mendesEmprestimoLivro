@@ -1,4 +1,8 @@
+using DocumentFormat.OpenXml.Drawing;
 using mendesEmprestimoLivro.Data;
+using mendesEmprestimoLivro.Services.LoginService;
+using mendesEmprestimoLivro.Services.SenhaService;
+using mendesEmprestimoLivro.Services.SessãoService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IloginInterface, LoginService>();
+builder.Services.AddScoped<ISenhainterface, SenhaService>();
+builder.Services.AddScoped<ISessaoService, SessãoService>();
+
+
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();  
 
@@ -27,6 +45,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

@@ -10,6 +10,7 @@ namespace mendesEmprestimoLivro.Data
         }
 
         public DbSet<Models.EmprestimoModel> Emprestimos { get; set; }
+        public DbSet<Models.UsuarioModel> Usuarios { get; set; }
 
     }
 }

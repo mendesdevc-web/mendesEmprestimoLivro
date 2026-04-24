@@ -3,17 +3,35 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-5">
         <h1>Empréstimo</h1>
-        <a class="btn btn-success mx-2" asp-controller="Emprestimo" asp-action="Cadastrar">Cadastrar novo empréstimo</a>
+
+        <div> 
+            <a class="btn btn-success mx-2" asp-controller="Emprestimo" asp-action="Exportar"><i class="bi bi-file-earmark-plus mx-2"></i>Exportar</a>
+            <a class="btn btn-success mx-2" asp-controller="Emprestimo" asp-action="Cadastrar"><i class="bi bi-file-earmark-plus mx-2"></i>Cadastrar novo empréstimo</a>
+        </div>
+
     </div>
 
+    @if(TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success text-light" role="alert">
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+    @if(TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger text-light" role="alert">
+            @TempData["MensagemErro"]
+        </div>
+    }
 
-<table class="table table-striped table-hover">
+
+<table id="Emprestimos" class="table table-light table-hover mat-5">
     <thead>
         <tr>
             <th scope="col">Recebedor</th>
             <th scope="col">Fornecedor</th>
             <th scope="col">Livro</th>
-            <th scope="col">Últimas Atualização</th>
+            <th scope="col">Data Empréstimo</th>
             <th scope="col">Ações</th>
         </tr>
     </thead>
@@ -29,8 +47,8 @@
                     <td>@emprestimo.LivroEmprestado</td>
                     <td>@emprestimo.DataUltimaAtualizacao</td>
                     <td>
-                        <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@emprestimo.Id" class="btn btn-warning btn-sm me-2">Editar</a>
-                        <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@emprestimo.Id" class="btn btn-danger btn-sm">Excluir</a>
+                            <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@emprestimo.Id" class="btn btn-warning btn-sm "><i class="bi bi-pencil-square mx-2"></i>Editar</a>
+                            <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@emprestimo.Id" class="btn btn-danger btn-sm "><i class="bi bi-trash mx-2"></i>Excluir</a>
                     </td>
                 </tr>
             }
