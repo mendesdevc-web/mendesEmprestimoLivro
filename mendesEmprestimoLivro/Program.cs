@@ -1,5 +1,7 @@
 using DocumentFormat.OpenXml.Drawing;
 using mendesEmprestimoLivro.Data;
+using mendesEmprestimoLivro.Services.EmprestimoService;
+using mendesEmprestimoLivro.Services.EmprestimosService;
 using mendesEmprestimoLivro.Services.LoginService;
 using mendesEmprestimoLivro.Services.SenhaService;
 using mendesEmprestimoLivro.Services.SessãoService;
@@ -19,6 +21,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IloginInterface, LoginService>();
 builder.Services.AddScoped<ISenhainterface, SenhaService>();
 builder.Services.AddScoped<ISessaoService, SessãoService>();
+builder.Services.AddScoped<IEmprestimosService, EmprestimosService>();
 
 
 

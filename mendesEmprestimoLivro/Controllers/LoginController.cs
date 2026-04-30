@@ -1,5 +1,6 @@
 ﻿using mendesEmprestimoLivro.Dtos;
 using mendesEmprestimoLivro.Services.LoginService;
+using mendesEmprestimoLivro.Services.SessãoService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace mendesEmprestimoLivro.Controllers
@@ -7,15 +8,28 @@ namespace mendesEmprestimoLivro.Controllers
     public class LoginController : Controller
     {
         private readonly IloginInterface _loginInterface;
+        private readonly ISessaoService _sessaoInterface;
 
-        public LoginController(IloginInterface loginInterface)
+        public LoginController(IloginInterface loginInterface, ISessaoService sessaoInterface)
         {
             _loginInterface = loginInterface;
+            _sessaoInterface = sessaoInterface;
         }
 
         public IActionResult Login()
         {
+            var usuario = _sessaoInterface.BuscarSessao();
+            if (usuario != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            _sessaoInterface.RemoverSessao();
+            return RedirectToAction("Login");
         }
 
         public IActionResult Registrar()
